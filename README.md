@@ -1,6 +1,6 @@
 # 📘 Pokedex – Parcial de Programación Web
 
-Proyecto desarrollado como **Primera Evaluación Parcial** (100 pts) de la materia **Programación Web**.
+Proyecto desarrollado por Kimberly Vasquez como **Primera Evaluación Parcial** (100 pts) de la materia **Programación Web**.
 
 ---
 
@@ -26,7 +26,7 @@ Proyecto desarrollado como **Primera Evaluación Parcial** (100 pts) de la mater
    git clone https://github.com/vmkimd/pokedex-parcial-web.git
    cd <repositorio>
 2. Abrir index.html en el navegador (o usar Live Server en VS Code).
-3. Abrir el siguiente link: 
+3. Abrir el siguiente link: https://vmkimd.github.io/pokedex-parcial-web/
 
 🧭 Uso
 Clic en Cargar 20 para traer los primeros Pokémon.

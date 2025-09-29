@@ -1,0 +1,263 @@
+/* =========================================================
+   PARTE I – Estructura CSS con BEM + estilos base
+   ========================================================= */
+:root{
+  --bg: #0f172a;
+  --panel: #111827;
+  --muted: #94a3b8;
+  --text: #e5e7eb;
+  --brand: #f59e0b;
+  --brand-2:#22c55e;
+  --danger:#ef4444;
+  --ok:#10b981;
+  --card:#1f2937;
+  --chip:#111827;
+  --shadow: 0 10px 30px rgba(0,0,0,.35);
+  --radius: 16px;
+  --radius-sm: 12px;
+  --gap: 14px;
+  --font: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji","Segoe UI Emoji";
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background: radial-gradient(1200px 600px at 10% -10%, #1e293b 0%, transparent 60%) , var(--bg);
+  color:var(--text);
+  font-family: var(--font);
+  line-height:1.4;
+}
+img{display:block;max-width:100%;height:auto}
+button,input,select{font:inherit}
+a{color:inherit}
+
+/* ====== Layout principal ====== */
+.app{max-width:1100px;margin:0 auto;padding:16px 12px 32px}
+
+/* ====== Encabezado ====== */
+.app-header{display:grid;gap:6px;margin-bottom:10px}
+.app-header__title{
+  font-size:clamp(20px,4.2vw,32px);font-weight:800;letter-spacing:.3px;
+  display:flex;align-items:center;gap:10px
+}
+.app-header__title::before{
+  content:"";width:12px;height:12px;border-radius:999px;
+  background:conic-gradient(from 0deg,var(--brand),var(--brand-2));
+  box-shadow:0 0 0 6px rgba(245,158,11,.15)
+}
+.app-header__subtitle{color:var(--muted);font-size:13px;margin:0}
+.app-header__meta{color:var(--muted);font-size:12px}
+
+/* Hacer el header sticky solo en pantallas medianas+ para no tapar la vista en móvil */
+.header{
+  border:1px solid rgba(148,163,184,.15);
+  border-radius:var(--radius);padding:10px;margin-bottom:10px;
+  background:linear-gradient(180deg, rgba(15,23,42,.97) 0%, rgba(15,23,42,.85) 100%);
+}
+@media (min-width:700px){
+  .header{ position:sticky; top:0; z-index:6; backdrop-filter:blur(6px); }
+}
+
+/* ====== Barra de controles ====== */
+.pokedex__bar{
+  position:sticky;top:0;z-index:5;
+  background:linear-gradient(180deg, rgba(15,23,42,.95) 0%, rgba(15,23,42,.75) 100%);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(148,163,184,.15);
+  box-shadow:var(--shadow);
+  padding:10px;border-radius:var(--radius);
+  display:grid;gap:8px;margin:8px 0 12px
+}
+@media (min-width:700px){
+  .pokedex__bar{
+    grid-template-columns: minmax(520px, 1fr) auto; 
+    align-items:center;
+  }
+}
+/* Compactar mucho en móvil para que se vean más tarjetas */
+@media (max-width:699px){
+  .pokedex__bar{ padding:8px; gap:6px; border-radius:12px; }
+}
+
+/* ====== Bloque: search ====== */
+.search{display:flex;gap:8px;flex-wrap:wrap;}
+.search__input{
+  flex:1 1 520px;
+  min-width:520px;
+  background:var(--panel);border:1px solid rgba(148,163,184,.2);
+  color:var(--text);padding:10px 12px;border-radius:var(--radius-sm);outline:none
+}
+.search__input::placeholder{color:#6b7280;font-size:13px}
+.search__button,.search__clear{
+  background:var(--brand);color:#1f2937;border:none;padding:10px 12px;
+  border-radius:var(--radius-sm);font-weight:700;cursor:pointer;transition:transform .05s ease
+}
+.search__button:active,.search__clear:active{transform:translateY(1px)}
+.search__clear{background:#334155;color:#e5e7eb}
+@media (max-width:860px){
+  .search__input{ flex:1 1 100%; min-width:0; }
+}
+
+/* ====== Bloque: toolbar ====== */
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.toolbar__chip{
+  display:inline-flex;align-items:center;gap:8px;background:var(--card);
+  border:1px solid rgba(148,163,184,.15);padding:8px 10px;border-radius:999px;color:var(--text);font-size:13px
+}
+.toolbar__switch{
+  appearance:none;width:42px;height:26px;border-radius:999px;background:#334155;
+  position:relative;outline:none;cursor:pointer;transition:background .2s ease
+}
+.toolbar__switch::after{
+  content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:999px;background:#e5e7eb;transition:transform .2s ease
+}
+.toolbar__switch:checked{background:#0ea5e9}
+.toolbar__switch:checked::after{transform:translateX(16px)}
+.toolbar__select{background:transparent;border:none;color:inherit}
+
+/* ====== Listado ====== */
+.poke-list{display:grid;gap:var(--gap)}
+.poke-list__grid{display:grid;gap:var(--gap);grid-template-columns:1fr}
+@media (min-width:360px){.poke-list__grid{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:700px){.poke-list__grid{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:1024px){.poke-list__grid{grid-template-columns:repeat(4,1fr)}}
+@media (min-width:1280px){.poke-list__grid{grid-template-columns:repeat(5,1fr)}}
+
+.poke-list__empty{
+  padding:16px;border-radius:var(--radius);
+  border:1px dashed rgba(148,163,184,.25);color:var(--muted);text-align:center
+}
+
+/* ====== Tarjeta ====== */
+.poke-card{
+  background:linear-gradient(180deg, rgba(31,41,55,1) 0%, rgba(17,24,39,1) 100%);
+  border:1px solid rgba(148,163,184,.15);border-radius:var(--radius);padding:12px;position:relative;
+  box-shadow:var(--shadow);transition:transform .12s ease, box-shadow .2s ease;cursor:pointer
+}
+.poke-card:hover{transform:translateY(-2px)}
+.poke-card__fav-btn{
+  position:absolute;right:8px;top:8px;border:none;background:transparent;cursor:pointer;
+  font-size:20px;line-height:1;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35))
+}
+.poke-card__fav-btn[aria-pressed="true"]{color:var(--brand)}
+.poke-card__media{
+  aspect-ratio:1/1;background:radial-gradient(200px 140px at 50% 35%, rgba(245,158,11,.12), transparent 65%);
+  border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px
+}
+.poke-card__img{width:120px;height:120px;object-fit:contain;image-rendering:-webkit-optimize-contrast}
+.poke-card__id{color:var(--muted);font-size:12px}
+.poke-card__title{font-weight:800;font-size:16px;margin:4px 0 6px;text-transform:capitalize}
+.poke-card__types{display:flex;flex-wrap:wrap;gap:6px}
+.type-chip{
+  font-size:12px;padding:6px 8px;border-radius:999px;border:1px solid rgba(148,163,184,.18);
+  background:var(--chip);text-transform:capitalize
+}
+
+/* Colores por tipo (modificadores) */
+.type-chip--grass{border-color:#22c55e;color:#86efac}
+.type-chip--fire{border-color:#f97316;color:#fb923c}
+.type-chip--water{border-color:#38bdf8;color:#93c5fd}
+.type-chip--electric{border-color:#f59e0b;color:#fde68a}
+.type-chip--bug{border-color:#84cc16;color:#bef264}
+.type-chip--poison{border-color:#a855f7;color:#d8b4fe}
+.type-chip--ground{border-color:#eab308;color:#fde047}
+.type-chip--rock{border-color:#a8a29e;color:#d6d3d1}
+.type-chip--psychic{border-color:#ef4444;color:#fecaca}
+.type-chip--fighting{border-color:#ef4444;color:#fca5a5}
+.type-chip--ghost{border-color:#6366f1;color:#c7d2fe}
+.type-chip--ice{border-color:#67e8f9;color:#a5f3fc}
+.type-chip--dragon{border-color:#22d3ee;color:#bae6fd}
+.type-chip--fairy{border-color:#f472b6;color:#fbcfe8}
+.type-chip--normal{border-color:#9ca3af;color:#e5e7eb}
+.type-chip--steel{border-color:#94a3b8;color:#cbd5e1}
+.type-chip--flying{border-color:#60a5fa;color:#bfdbfe}
+.type-chip--dark{border-color:#111827;color:#e5e7eb}
+
+/* ====== Modal de detalle ====== */
+.poke-modal{
+  width:min(720px,96vw);border:none;border-radius:var(--radius);
+  background:linear-gradient(180deg,#0b1220,#0f172a 50%,#0b1220 100%);
+  color:var(--text);box-shadow:var(--shadow);padding:0
+}
+.poke-modal::backdrop{background:rgba(2,6,23,.6);backdrop-filter:blur(4px)}
+.poke-modal__header{
+  padding:14px 16px;border-bottom:1px solid rgba(148,163,184,.18);
+  display:flex;align-items:center;justify-content:space-between;gap:12px
+}
+.poke-modal__title{margin:0;font-size:20px;font-weight:800;text-transform:capitalize}
+.poke-modal__close{border:none;background:#1f2937;color:#e5e7eb;padding:8px 10px;border-radius:10px;cursor:pointer}
+.poke-modal__content{padding:16px;display:grid;gap:14px}
+@media (min-width:700px){.poke-modal__content{grid-template-columns:240px 1fr}}
+.poke-modal__media{
+  background:radial-gradient(200px 140px at 50% 35%, rgba(34,197,94,.12), transparent 65%);
+  border:1px solid rgba(148,163,184,.15);border-radius:14px;display:flex;align-items:center;justify-content:center;padding:12px
+}
+.poke-modal__img{width:220px;height:220px;object-fit:contain}
+
+.poke-meta{display:grid;gap:10px}
+.poke-meta__row{display:flex;gap:10px;flex-wrap:wrap}
+.stat{background:#0b1220;border:1px solid rgba(148,163,184,.15);padding:10px 12px;border-radius:12px;font-size:14px}
+.stat__bar{height:8px;width:100%;background:#0b1220;border:1px solid rgba(148,163,184,.18);border-radius:999px;overflow:hidden;margin-top:6px}
+.stat__bar-fill{height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-2));width:0%}
+
+/* ====== Loader / progreso compacto ====== */
+#loadingBlock[hidden]{ display:none !important; }
+
+#loadingBlock{
+  display:flex; align-items:center; gap:8px;
+  width:max-content; margin:6px auto; padding:6px 10px;
+  background:rgba(17,24,39,.85);
+  border:1px solid rgba(148,163,184,.18);
+  border-radius:999px; box-shadow:var(--shadow);
+}
+#loadingBlock::after{
+  content:"Cargando…";
+  font-size:12px; color:var(--muted);
+}
+.loader{
+  width:14px; height:14px;
+  border-radius:999px;
+  border:2px solid rgba(148,163,184,.25);
+  border-top-color:var(--brand);
+  animation:spin .9s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.center{display:flex;align-items:center;justify-content:center}
+
+/* ====== Toast ====== */
+.toast{
+  position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
+  background:#111827;color:#e5e7eb;padding:10px 14px;border-radius:12px;
+  border:1px solid rgba(148,163,184,.18);box-shadow:var(--shadow);display:none
+}
+.toast--show{display:block}
+
+/* ====== BEM: modificador tarjeta favorita ====== */
+.pokemon-card--favorite{outline:2px solid rgba(245,158,11,.6);box-shadow:0 0 0 4px rgba(245,158,11,.15), var(--shadow)}
+
+/* ====== BLOQUE: aside.favorites ====== */
+.favorites{
+  margin-top:12px;padding:12px;border-radius:var(--radius);
+  border:1px solid rgba(148,163,184,.15);
+  background:linear-gradient(180deg, rgba(17,24,39,1) 0%, rgba(11,18,32,1) 100%)
+}
+.favorites__title{margin:0 0 8px 0;font-size:16px;font-weight:800}
+.favorites__empty{color:var(--muted);font-size:14px}
+.favorites__list{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0;list-style:none}
+.favorites__chip{
+  border:1px solid rgba(148,163,184,.18);background:var(--card);color:var(--text);
+  border-radius:999px;padding:8px 12px;cursor:pointer
+}
+.favorites__chip:hover{transform:translateY(-1px)}
+
+/* Filtros por tipo */
+.type-filter{display:flex;gap:8px;flex-wrap:wrap;align-items:center;overflow-x:auto;padding-top:4px}
+.type-filter__chip{
+  border:1px solid rgba(148,163,184,.18);background:var(--card);color:var(--text);
+  border-radius:999px;padding:8px 12px;cursor:pointer;white-space:nowrap
+}
+.type-filter__chip[aria-pressed="true"]{outline:2px solid rgba(245,158,11,.6)}
+.type-filter__chip--clear{background:#0b1220}
+
+/* Solo lectores de pantalla */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}

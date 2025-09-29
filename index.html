@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pokedex – Parcial Web</title>
+  <meta name="description" content="Pokedex del parcial: lista, detalle y favoritos con PokeAPI, BEM y responsividad." />
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="app-header header">
+      <h1 class="app-header__title">Pokedex – Parcial Web</h1>
+      <p class="app-header__subtitle">
+        Lista, detalle y favoritos usando <strong>PokeAPI</strong>. Metodología <strong>BEM</strong>, fetch y diseño responsivo.
+      </p>
+      <div class="app-header__meta" id="metaInfo" aria-live="polite">
+        Mostrando <strong>0</strong> Pokémon • Fuente: <a href="https://pokeapi.co/" target="_blank" rel="noreferrer">PokeAPI</a>
+      </div>
+    </header>
+
+    <!-- Barra: búsqueda + toggles -->
+    <section class="pokedex__bar" role="region" aria-label="Controles de la Pokedex">
+      <form class="search" id="searchForm" autocomplete="off">
+        <input class="search__input" id="searchInput" type="search" placeholder="Buscar por nombre o ID (ej. pikachu o 25)" aria-label="Buscar Pokémon" />
+        <button class="search__button" id="searchBtn" type="submit" title="Buscar exacto">Buscar</button>
+        <button class="search__clear" id="clearBtn" type="button" title="Limpiar búsqueda">Limpiar</button>
+      </form>
+
+      <div class="toolbar" id="toolbar">
+        <button id="btnLoad20" class="search__button" type="button" title="Cargar los primeros 20">Cargar 20</button>
+
+        <label class="toolbar__chip">
+          <input type="checkbox" id="onlyFavs" class="toolbar__switch" />
+          <span>Solo favoritos</span>
+        </label>
+
+        <label class="toolbar__chip" title="Cantidad a listar">
+          <span>Límite</span>
+          <select id="limitSelect" class="toolbar__select">
+            <option value="20" selected>20 (inicio)</option>
+            <option value="151">151 (Gen I)</option>
+            <option value="251">251</option>
+            <option value="386">386</option>
+            <option value="493">493</option>
+            <option value="898">898</option>
+            <option value="1010">1010</option>
+          </select>
+        </label>
+
+        <span class="toolbar__chip" id="favCounter" aria-live="polite">★ Favoritos: 0</span>
+      </div>
+
+      <div class="type-filter" id="typeFilter" aria-label="Filtrar por tipo" role="group"></div>
+    </section>
+
+    <!-- Lista -->
+    <section class="poke-list pokemon-list" aria-live="polite">
+      <div id="grid" class="poke-list__grid" role="list"></div>
+      <p id="emptyState" class="poke-list__empty">Aún no has cargado nada. Presiona <strong>Cargar 20</strong> para iniciar.</p>
+      <div id="loadingBlock" class="center" role="status" aria-live="polite" hidden>
+        <span class="loader" aria-hidden="true"></span>
+      </div>
+    </section>
+
+    <!-- Favoritos -->
+    <aside class="favorites" aria-live="polite" aria-label="Lista de favoritos">
+      <h2 class="favorites__title">★ Favoritos</h2>
+      <div class="favorites__empty" id="favEmpty">Aún no tienes favoritos.</div>
+      <ul class="favorites__list" id="favList" role="list"></ul>
+    </aside>
+
+    <!-- Modal -->
+    <dialog class="poke-modal pokemon-modal" id="detailDialog" aria-labelledby="dlgTitle">
+      <header class="poke-modal__header">
+        <h2 class="poke-modal__title" id="dlgTitle">Detalle</h2>
+        <div style="display:flex; gap:6px; align-items:center">
+          <button class="poke-card__fav-btn" id="dlgFavBtn" aria-pressed="false" title="Agregar a favoritos">☆</button>
+          <button class="poke-modal__close" id="dlgClose">Cerrar</button>
+        </div>
+      </header>
+      <div class="poke-modal__content">
+        <div class="poke-modal__media">
+          <img id="dlgImg" class="poke-modal__img" alt="Sprite del Pokémon" />
+        </div>
+        <div class="poke-meta">
+          <div class="poke-meta__row" id="dlgTypes"></div>
+          <div class="poke-meta__row" id="dlgBasic"></div>
+          <div>
+            <div style="font-weight:700;margin-bottom:6px">Estadísticas base</div>
+            <div id="dlgStats" class="poke-meta__row" style="display:grid;gap:10px"></div>
+          </div>
+          <div>
+            <div style="font-weight:700;margin-bottom:6px">Habilidades</div>
+            <div id="dlgAbilities" class="poke-meta__row"></div>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </main>
+
+  <script src="./app.js" defer></script>
+</body>
+</html>
